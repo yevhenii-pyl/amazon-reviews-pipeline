@@ -9,8 +9,11 @@ FROM bitnami/spark:3.5.0
 USER root
 RUN apt-get update && \
     apt-get install -y python3-pip && \
-    pip3 install --upgrade pip && \
-    pip3 install pymongo
+    pip3 install --upgrade pip
+
+# Copy and install Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt
 
 # Set workdir to app folder
 WORKDIR /app

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  spark:
+    build: ./spark
+    container_name: ${SPARK_CONTAINER_NAME}
+    command: tail -f /dev/null
+    volumes:
+      - ./spark/app:/app
+      - ./spark/data:/data
+    depends_on:
+      - mongo
+    networks:
+      - backend
+
+  mongo:
+    image: mongo:7
+    container_name: ${MONGO_CONTAINER_NAME}
+    restart: unless-stopped
+    ports:
+      - "${MONGO_PORT}:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+    volumes:
+      - mongodata:/data/db
+      - ./mongo/init:/docker-entrypoint-initdb.d
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  mongodata:

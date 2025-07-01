@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints
+*.pyo
+*.pyd
+*.pyc
+
+# macOS
+.DS_Store
+
+# VSCode settings (optional)
+.vscode/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Docker
+**/.dockerignore
+docker-compose.override.yml
+
+mongo/data/
+spark/data/*
+!spark/data/.keep
+

@@ -56,6 +56,45 @@ This script will:
 
 **Important:**: Make sure the main ETL job (main.py) has run first — the debug script reads its output.
 
+### 7. Export Aggregates to MongoDB
+
+After cleaning and exploring the data, you can run the aggregation + export pipeline to compute insights and load them into MongoDB:
+
+```bash
+docker compose exec spark spark-submit /app/export_to_mongo.py
+```
+
+
+This script will:
+- Load the cleaned data from /data/amazon_reviews_clean/
+- Calculate three aggregate datasets:
+    - Total reviews and average rating per product
+    - Verified reviews per customer
+    - Monthly review counts per product
+- Save all aggregates into the following MongoDB collections:
+    - product_stats
+    - verified_reviews
+    - monthly_trends
+
+Ensure MongoDB is up and running and .env contains the correct MONGO_PORT and MONGO_INITDB_DATABASE values.
+
+To verify, connect to the Mongo shell:
+```bash
+docker compose exec mongo mongosh
+```
+
+Querying example: 
+```bash
+// Average rating for a product
+db.product_stats.find({ product_id: "0842329129" })
+
+// Verified reviews by a customer
+db.verified_reviews.find({ customer_id: 27851871 })
+
+// Monthly review trend for a product
+db.monthly_trends.find({ product_id: "0842329129" })
+```
+
 --- 
 
 ## Development Notes

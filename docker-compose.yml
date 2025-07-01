@@ -4,6 +4,10 @@ services:
 
   spark:
     build: ./spark
+    environment:
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_URI=mongodb://mongo:${MONGO_PORT}/
     container_name: ${SPARK_CONTAINER_NAME}
     command: tail -f /dev/null
     volumes:

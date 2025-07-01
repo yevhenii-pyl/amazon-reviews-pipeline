@@ -45,7 +45,7 @@ This will:
 
 You can run the debug script to inspect the cleaned output without re-running the whole pipeline:
 ```bash
-docker compose exec spark spark-submit /app/debug.py
+docker compose exec spark spark-submit /app/debug_view.py
 ```
 
 This script will:

@@ -12,7 +12,7 @@ A fully Dockerized data pipeline to process large-scale Amazon reviews using Apa
 
 ### 2. Create your .env file
 
-### 3. 3. Build the containers
+### 3. Build the containers
 
 ```bash
 docker compose build

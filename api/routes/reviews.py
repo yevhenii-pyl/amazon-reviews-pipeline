@@ -8,7 +8,6 @@ service = ReviewService()
 
 @router.get("/reviews/product/{product_id}", response_model=List[Review])
 async def get_reviews_by_product(product_id: str):
-    print(f"Received product_id: '{product_id}'")
     reviews = service.get_reviews_by_product(product_id)
     if not reviews:
         raise HTTPException(status_code=404, detail="No reviews found for this product")

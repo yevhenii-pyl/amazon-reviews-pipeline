@@ -148,6 +148,7 @@ docker compose exec mongo mongosh
 --- 
 
 ⚠️ Startup Sequence Caveats
+
 The API depends on Cassandra being fully ready before starting, but currently there is no automatic wait or retry logic implemented.
 This can cause initial API startup failures due to connection errors (cassandra.UnresolvableContactPoints).
 

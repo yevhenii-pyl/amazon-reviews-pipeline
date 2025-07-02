@@ -145,6 +145,20 @@ docker compose exec spark spark-submit /app/export_to_cassandra.py
 docker compose exec mongo mongosh
 ```
 
+--- 
+
+⚠️ Startup Sequence Caveats
+The API depends on Cassandra being fully ready before starting, but currently there is no automatic wait or retry logic implemented.
+This can cause initial API startup failures due to connection errors (cassandra.UnresolvableContactPoints).
+
+When starting containers fresh, you may need to:
+
+- Wait for Cassandra to initialize (including running migration scripts).
+- Run migration & seeder scripts manually to populate the database (step 8 - 9).
+- Restart or manually start the API container after Cassandra is ready.
+
+Automating startup dependency management and migrations is planned for a future improvement.
+
 ---
 
 ## Cleanup

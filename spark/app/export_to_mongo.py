@@ -15,7 +15,7 @@ db_name = os.getenv("MONGO_INITDB_DATABASE")
 def main():
     spark = SparkSession.builder \
         .appName("Export Aggregates to MongoDB") \
-        .config("spark.mongodb.write.connection.uri", "mongodb://mongo:27017/amazon") \
+        .config("spark.mongodb.write.connection.uri", mongo_uri) \
         .getOrCreate()
 
     # Load cleaned data

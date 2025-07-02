@@ -95,6 +95,44 @@ db.verified_reviews.find({ customer_id: 27851871 })
 db.monthly_trends.find({ product_id: "0842329129" })
 ```
 
+## 8. Initialize Cassandra Schema
+
+Once all containers are up and Cassandra is running, execute:
+```bash
+docker compose exec cassandra cqlsh -f /schema-init/schema.cql
+```
+
+This command will:
+- Create the required keyspace and tables inside Cassandra
+- Prepare the schema needed for downstream PySpark and API integration
+
+For confirmation, run:
+
+```bash
+docker compose exec cassandra cqlsh
+
+USE reviews;
+DESCRIBE TABLES;
+```
+
+Expected tables:
+- reviews_by_product
+- reviews_by_customer
+- product_review_counts_by_date
+- verified_review_counts_by_date
+- haters_review_counts_by_date
+- backers_review_counts_by_date
+
+## 9. Seed Cassandra 
+
+1. Make sure Cassandra and Spark containers are running.
+2. Run the seeder script inside the Spark container:
+```bash
+docker compose exec spark spark-submit /app/export_to_cassandra.py
+```
+
+3. The script will clean the dataset and seed all tables automatically.
+
 --- 
 
 ## Development Notes

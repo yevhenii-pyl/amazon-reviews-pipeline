@@ -8,6 +8,9 @@ services:
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
       - MONGO_URI=mongodb://mongo:${MONGO_PORT}/
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - CASSANDRA_PORT=${CASSANDRA_PORT}
+      - CASSANDRA_KEYSPACE=${CASSANDRA_KEYSPACE}
     container_name: ${SPARK_CONTAINER_NAME}
     command: tail -f /dev/null
     volumes:
@@ -32,8 +35,24 @@ services:
     networks:
       - backend
 
+  cassandra:
+    image: cassandra:4.1
+    container_name: ${CASSANDRA_CONTAINER_NAME}
+    environment:
+      - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME}
+      - CASSANDRA_NUM_TOKENS=16
+    ports:
+      - "${CASSANDRA_PORT}:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+      - ./cassandra/init:/schema-init
+    networks:
+      - backend
+
+
 networks:
   backend:
 
 volumes:
   mongodata:
+  cassandra_data:

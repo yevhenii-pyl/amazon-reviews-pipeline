@@ -1,10 +1,13 @@
 from fastapi import FastAPI, HTTPException
 
 from db.cassandra_connector import get_cassandra_session
-from routes import reviews
+from routes import reviews, customers
+
+API_VERSION = "v1"
 
 app = FastAPI()
-app.include_router(reviews.router)
+app.include_router(reviews.router, prefix=f"/api/{API_VERSION}/reviews")
+app.include_router(customers.router, prefix=f"/api/{API_VERSION}/customers")
 
 @app.on_event("startup")
 async def startup():
